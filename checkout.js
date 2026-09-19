@@ -1,0 +1,11 @@
+function showSummary(){const c=cart(),s=document.getElementById("summary");if(!c.length){s.innerHTML='<p>Your cart is empty.</p><a class="text-btn" href="index.html#shop">Shop now →</a>';document.getElementById("checkout-form").style.display="none";return;}let total=0;s.innerHTML=c.map(p=>{const t=p.price*p.quantity;total+=t;return `<div class="summary-row"><span>${p.name} × ${p.quantity}</span><b>₹${t}</b></div>`}).join("")+`<div class="cart-total">₹${total.toLocaleString("en-IN")}</div>`;}
+document.addEventListener("DOMContentLoaded",()=>{showSummary();document.getElementById("checkout-form").addEventListener("submit",placeOrder);});
+async function placeOrder(e){e.preventDefault();const c=cart(),msg=document.getElementById("message");if(!c.length)return;msg.innerHTML='<div class="success">Placing your order…</div>';
+ const items=c.map(p=>({product_id:String(p.id),quantity:Number(p.quantity)}));
+ try{
+  const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/create_order`,{method:"POST",headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,"Content-Type":"application/json"},body:JSON.stringify({p_customer_name:document.getElementById("name").value.trim(),p_phone:document.getElementById("phone").value.trim(),p_address:document.getElementById("address").value.trim(),p_city:document.getElementById("city").value.trim(),p_pin:document.getElementById("pin").value.trim(),p_items:items})});
+  const text=await r.text(); if(!r.ok)throw new Error(text); const result=JSON.parse(text),id=result.order_id;
+  localStorage.removeItem("cart");updateCartCount();document.getElementById("checkout-form").reset();
+  msg.innerHTML=`<div class="success"><h3>Order placed successfully 🎉</h3><p>Thank you for shopping with Srikala Organics.</p><p>Your Order ID: <strong>${id}</strong></p><a class="text-btn" href="index.html">Back to home →</a></div>`;showSummary();
+ }catch(err){console.error(err);msg.innerHTML='<div class="error"><strong>Order could not be placed.</strong><br>Please check your Supabase order function and try again.</div>';}
+}

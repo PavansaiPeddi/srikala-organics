@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Account | Srikala Organics</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <nav class="nav wrap">
+
+        <a href="index.html" class="brand">
+
+            <span>🌿</span>
+
+            <div>
+                <strong>Srikala</strong>
+                <small>ORGANICS</small>
+            </div>
+
+        </a>
+
+
+        <div class="navlinks">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="index.html#shop">
+                Shop
+            </a>
+
+            <a href="cart.html">
+                🛒 Cart
+            </a>
+
+        </div>
+
+    </nav>
+
+</header>
+
+
+<main class="page wrap">
+
+    <div class="panel auth-card">
+
+        <span class="eyebrow">
+            MY ACCOUNT
+        </span>
+
+        <h1 class="auth-title">
+            Welcome to Srikala 🌿
+        </h1>
+
+        <p id="account-name">
+            Loading...
+        </p>
+
+        <p id="account-email">
+            Loading...
+        </p>
+
+
+        <div style="margin-top:25px;">
+
+            <button
+                id="logout-btn"
+                class="btn primary">
+
+                Logout
+
+            </button>
+
+        </div>
+
+
+        <p style="margin-top:25px;">
+
+            <a href="index.html" class="text-btn">
+                ← Continue Shopping
+            </a>
+
+        </p>
+
+    </div>
+
+</main>
+
+
+<script src="config.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const userData =
+        localStorage.getItem("srikala_user");
+
+    if (!userData) {
+
+        window.location.href = "auth.html";
+
+        return;
+    }
+
+
+    try {
+
+        const user =
+            JSON.parse(userData);
+
+
+        const name =
+            user.user_metadata?.full_name ||
+            user.email?.split("@")[0] ||
+            "Customer";
+
+
+        document.getElementById(
+            "account-name"
+        ).textContent =
+            "Name: " + name;
+
+
+        document.getElementById(
+            "account-email"
+        ).textContent =
+            "Email: " + user.email;
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        window.location.href = "auth.html";
+    }
+
+
+    const logoutButton =
+        document.getElementById("logout-btn");
+
+
+    logoutButton.addEventListener(
+        "click",
+        function () {
+
+            localStorage.removeItem(
+                "srikala_access_token"
+            );
+
+            localStorage.removeItem(
+                "srikala_user"
+            );
+
+            window.location.href =
+                "index.html";
+
+        }
+    );
+
+});
+
+</script>
+
+</body>
+
+</html>

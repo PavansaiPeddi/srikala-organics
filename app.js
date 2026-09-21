@@ -1,16 +1,70 @@
 const fallbackProducts = [
-  {id:"demo-honey",name:"Pure Honey",price:299,weight:"500g",stock:50,description:"Naturally sourced honey with no added sugar.",image_url:"images/honey.svg"},
-  {id:"demo-turmeric",name:"Turmeric",price:149,weight:"250g",stock:75,description:"Quality turmeric powder for everyday cooking.",image_url:"images/turmeric.svg"},
-  {id:"demo-peanut",name:"Peanut Butter",price:249,weight:"500g",stock:40,description:"Roasted peanut butter made for everyday use.",image_url:"images/peanut.svg"},
-  {id:"demo-rice",name:"Brown Rice",price:199,weight:"1 kg",stock:40,description:"Minimally processed brown rice.",image_url:"images/rice.svg"}
+  {
+    id: "demo-honey",
+    name: "Pure Honey",
+    price: 299,
+    weight: "500g",
+    stock: 50,
+    description: "Naturally sourced honey with no added sugar.",
+    image_url: "images/honey.png"
+  },
+
+  {
+    id: "demo-turmeric",
+    name: "Turmeric",
+    price: 149,
+    weight: "250g",
+    stock: 75,
+    description: "Quality turmeric powder for everyday cooking.",
+    image_url: "images/turmeric.png"
+  },
+
+  {
+    id: "demo-peanut",
+    name: "Peanut Butter",
+    price: 249,
+    weight: "500g",
+    stock: 40,
+    description: "Roasted peanut butter made for everyday use.",
+    image_url: "images/peanut.png"
+  },
+
+  {
+    id: "demo-rice",
+    name: "Brown Rice",
+    price: 199,
+    weight: "1 kg",
+    stock: 40,
+    description: "Minimally processed brown rice.",
+    image_url: "images/BrownRice.png"
+  }
 ];
 
+
 const imageMap = {
-  "Honey":"images/honey.svg","Pure Honey":"images/honey.svg",
-  "Turmeric":"images/turmeric.svg","Turmeric Powder":"images/turmeric.svg",
-  "Peanut Butter":"images/peanut.svg","Brown Rice":"images/rice.svg"
+
+  "Honey": "images/honey.png",
+
+  "Pure Honey": "images/honey.png",
+
+  "Turmeric": "images/turmeric.png",
+
+  "Turmeric Powder": "images/turmeric.png",
+
+  "Peanut Butter": "images/peanut.png",
+
+  "Brown Rice": "images/BrownRice.png"
+
 };
 
+
+function productImage(p) {
+
+  return p.image_url
+    || imageMap[p.name]
+    || "images/honey.png";
+
+}
 function productImage(p){return p.image_url || imageMap[p.name] || "images/honey.svg";}
 function cart(){return JSON.parse(localStorage.getItem("cart")||"[]");}
 function saveCart(c){localStorage.setItem("cart",JSON.stringify(c));updateCartCount();}
